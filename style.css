@@ -1,0 +1,252 @@
+/* ============================================================
+   sqli://cheatsheet — stylesheet
+   Phase 1: shell, layout, variables, topbar
+   ============================================================ */
+
+/* ── RESET ── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ── CSS VARIABLES ── */
+:root {
+    /* backgrounds */
+    --bg-page: #0a0e13;
+    --bg-panel: #0f1419;
+    --bg-card: #111d26;
+    --bg-input: #080c10;
+    --bg-row-hover: #131e28;
+
+    /* technique color lanes */
+    --error-bg: #1a0a0a;
+    --error-border: #5a1a1a;
+    --error-text: #ff6b6b;
+
+    --bool-bg: #0a1628;
+    --bool-border: #1a3a6e;
+    --bool-text: #5b9bd5;
+
+    --time-bg: #1a120a;
+    --time-border: #4a2e0a;
+    --time-text: #e8a427;
+
+    --oob-bg: #120a1a;
+    --oob-border: #3a1a5a;
+    --oob-text: #b57bee;
+
+    /* accents */
+    --green: #00c97a;
+    --green-dim: #004d30;
+
+    /* text */
+    --text-primary: #e8edf2;
+    --text-secondary: #8a9db0;
+    --text-muted: #4a5a6a;
+
+    /* borders */
+    --border: #1e2a38;
+    --border-strong: #2a3a4a;
+
+    /* fonts */
+    --font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+    --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+
+    /* layout */
+    --topbar-height: 48px;
+    --tree-width: 230px;
+    --radius: 6px;
+    --radius-card: 8px;
+}
+
+/* ── BASE ── */
+html,
+body {
+    height: 100%;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--topbar-height);
+    background: var(--bg-panel);
+    border-bottom: 0.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+    z-index: 100;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+}
+
+.logo-text {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+}
+
+.logo-text em {
+    color: var(--green);
+    font-style: normal;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.meta-text {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+/* ── BUTTONS ── */
+.btn-ghost {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    background: transparent;
+    border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 4px 10px;
+    cursor: pointer;
+    transition:
+        color 0.15s,
+        border-color 0.15s;
+}
+
+.btn-ghost:hover {
+    color: var(--text-secondary);
+    border-color: var(--text-muted);
+}
+
+.btn-ghost:active {
+    opacity: 0.7;
+}
+
+/* ── APP LAYOUT ── */
+.app-layout {
+    display: grid;
+    grid-template-columns: var(--tree-width) 1fr;
+    height: calc(100vh - var(--topbar-height));
+    margin-top: var(--topbar-height);
+    overflow: hidden;
+}
+
+/* ── TREE PANEL ── */
+.tree-panel {
+    background: var(--bg-panel);
+    border-right: 0.5px solid var(--border);
+    overflow-y: auto;
+    padding: 16px 10px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+}
+
+.tree-panel::-webkit-scrollbar {
+    width: 4px;
+}
+
+.tree-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tree-panel::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 2px;
+}
+
+/* ── MAIN PANEL ── */
+.main-panel {
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+}
+
+.main-panel::-webkit-scrollbar {
+    width: 4px;
+}
+
+.main-panel::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 2px;
+}
+
+/* ── PLACEHOLDER STATES ── */
+.tree-placeholder,
+.main-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 100%;
+    min-height: 200px;
+    text-align: center;
+    padding: 20px;
+}
+
+.placeholder-text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.placeholder-title {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.placeholder-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    max-width: 280px;
+    line-height: 1.6;
+}
+
+/* ── UTILITY ── */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
