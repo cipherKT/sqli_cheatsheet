@@ -13,48 +13,26 @@
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <!-- TOP BAR -->
         <header class="topbar">
             <div class="topbar-left">
                 <span class="status-dot"></span>
                 <span class="logo-text">sqli<em>://</em>cheatsheet</span>
             </div>
             <div class="topbar-right">
-                <span class="meta-text">v1.0 &middot; cipherKT</span>
-                <button
-                    class="btn-ghost"
-                    id="btn-reset-all"
-                    title="Reset all checklists"
-                >
-                    reset all
+                <span class="meta-text">cipherKT</span>
+                <button class="btn-ghost" id="btn-reset-all">
+                    ↺ reset all
                 </button>
             </div>
         </header>
 
-        <!-- APP LAYOUT -->
         <div class="app-layout">
-            <!-- LEFT: TREE PANEL -->
             <nav
                 class="tree-panel"
                 id="tree-panel"
                 aria-label="Navigation tree"
-            >
-                <!-- populated by tree.js in Phase 2 -->
-                <div class="tree-placeholder">
-                    <p class="placeholder-text">tree loads here</p>
-                </div>
-            </nav>
-
-            <!-- RIGHT: MAIN PANEL -->
-            <main class="main-panel" id="main-panel">
-                <!-- populated by tree.js / leaf.js in later phases -->
-                <div class="main-placeholder">
-                    <p class="placeholder-title">select an injection point</p>
-                    <p class="placeholder-sub">
-                        navigate the tree on the left to reach a payload set
-                    </p>
-                </div>
-            </main>
+            ></nav>
+            <main class="main-panel" id="main-panel"></main>
         </div>
 
         <script src="data.js"></script>

