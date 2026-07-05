@@ -2,7 +2,7 @@
 
 An interactive, graphical SQL injection cheatsheet structured as an expandable mind map. Hunt-ready for engagements and designed to guide both newcomers and experienced pentesters through the SQLi exploitation process.
 
-**Live demo:** [https://cipherKT.github.io/sqli-cheatsheet](https://cipherKT.github.io/sqli-cheatsheet)
+**Live demo:** [https://cipherkt.github.io/sqli_cheatsheet/](https://cipherkt.github.io/sqli_cheatsheet/)
 
 ---
 
