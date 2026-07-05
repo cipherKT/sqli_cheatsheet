@@ -3,11 +3,11 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>sqli://cheatsheet</title>
+        <title>sqli://cheatsheet — Mind Map Navigator</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap"
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;600;800&display=swap"
             rel="stylesheet"
         />
         <link rel="stylesheet" href="style.css" />
@@ -15,11 +15,15 @@
     <body>
         <header class="topbar">
             <div class="topbar-left">
-                <span class="status-dot"></span>
+                <span class="status-dot-pulse"></span>
                 <span class="logo-text">sqli<em>://</em>cheatsheet</span>
+                <span class="version-tag">v2.1</span>
+            </div>
+            <div class="topbar-center-tip" id="status-tip">
+                Select an injection point to begin traversing the rabbit hole
             </div>
             <div class="topbar-right">
-                <span class="meta-text">cipherKT</span>
+                <span class="meta-text">@r00t3d_kt</span>
                 <button class="btn-ghost" id="btn-reset-all">
                     ↺ reset all
                 </button>
@@ -27,12 +31,27 @@
         </header>
 
         <div class="app-layout">
-            <nav
-                class="tree-panel"
-                id="tree-panel"
-                aria-label="Navigation tree"
-            ></nav>
-            <main class="main-panel" id="main-panel"></main>
+            <!-- Mind Map Nav Section -->
+            <div class="mindmap-viewport" id="mindmap-viewport">
+                <div class="mindmap-canvas" id="mindmap-canvas">
+                    <svg class="mindmap-svg" id="mindmap-svg"></svg>
+                    <!-- Nodes will be rendered dynamically here by tree.js -->
+                </div>
+            </div>
+
+            <!-- Slide-out Drawer Panel -->
+            <aside class="drawer-panel" id="drawer-panel">
+                <div class="drawer-header">
+                    <div class="drawer-header-top">
+                        <span class="drawer-title" id="drawer-title">Payload Checklist</span>
+                        <button class="drawer-close" id="drawer-close" aria-label="Close panel">×</button>
+                    </div>
+                    <div class="drawer-subtitle" id="drawer-subtitle">MySQL · Error-Based</div>
+                </div>
+                <div class="drawer-body" id="drawer-body">
+                    <!-- Loaded dynamically by tree.js -->
+                </div>
+            </aside>
         </div>
 
         <script src="data.js"></script>
