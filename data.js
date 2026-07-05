@@ -235,19 +235,19 @@ const PAYLOAD_MAP = {
   },
   nothing: {
     mysql: {
-      file: "payloads/mysql/time.txt",
+      file: "payloads/mysql/oob.txt",
       psRef: "https://portswigger.net/web-security/sql-injection/blind",
     },
     mssql: {
-      file: "payloads/mssql/time.txt",
+      file: "payloads/mssql/oob.txt",
       psRef: "https://portswigger.net/web-security/sql-injection/blind",
     },
     postgresql: {
-      file: "payloads/postgresql/time.txt",
+      file: "payloads/postgresql/oob.txt",
       psRef: "https://portswigger.net/web-security/sql-injection/blind",
     },
     oracle: {
-      file: "payloads/oracle/time.txt",
+      file: "payloads/oracle/oob.txt",
       psRef: "https://portswigger.net/web-security/sql-injection/blind",
     },
     generic: { file: "payloads/generic/detection.txt" },
@@ -277,6 +277,6 @@ const UNION_PAYLOAD_MAP = {
   },
 };
 
-const WAF_PAYLOADS = { file: "payloads/waf/xor.txt" };
+const WAF_PAYLOADS = { file: "payloads/waf/bypass.txt" };
 const DETECTION_PAYLOADS = { file: "payloads/detection.txt" };
 const FINGERPRINT_PAYLOADS = { file: "payloads/fingerprint.txt" };

